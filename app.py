@@ -11,7 +11,7 @@ from flask_jwt_extended import (
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf.csrf import CSRFProtect
+# from flask_wtf.csrf import CSRFProtect
 
 load_dotenv()
 app = Flask(__name__)
@@ -25,13 +25,13 @@ app.config["JWT_TOKEN_LOCATION"]          = ["cookies"]
 app.config["JWT_COOKIE_HTTPONLY"]         = True
 app.config["JWT_COOKIE_SAMESITE"]         = "Lax"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"]    = timedelta(hours=2)
-app.config["JWT_COOKIE_CSRF_PROTECT"]     = True
+app.config["JWT_COOKIE_CSRF_PROTECT"]     = False
 app.config["WTF_CSRF_TIME_LIMIT"]         = 7200
 
 db      = SQLAlchemy(app)
 bcrypt  = Bcrypt(app)
 jwt     = JWTManager(app)
-csrf    = CSRFProtect(app)
+# csrf    = CSRFProtect(app)
 limiter = Limiter(get_remote_address, app=app,
                   default_limits=["500 per day","100 per hour"],
                   storage_uri="memory://")
